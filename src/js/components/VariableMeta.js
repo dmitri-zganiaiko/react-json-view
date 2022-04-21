@@ -108,7 +108,8 @@ export default class extends React.PureComponent {
             onAdd,
             enableClipboard,
             src,
-            namespace
+            namespace,
+            additionalItemActions
         } = this.props;
         return (
             <div
@@ -125,6 +126,10 @@ export default class extends React.PureComponent {
                     ? (<CopyToClipboard
                         clickCallback={enableClipboard}
                         {...{src, theme, namespace}} />)
+                    : null
+                }
+                { additionalItemActions ?
+                    additionalItemActions({ src, namespace })
                     : null
                 }
                 {/* copy add/remove icons */}

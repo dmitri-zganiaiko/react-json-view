@@ -54,7 +54,8 @@ class VariableEditor extends React.PureComponent {
             onEdit,
             onDelete,
             onSelect,
-            rjvId
+            rjvId,
+            additionalItemActions
         } = this.props;
         const { editMode } = this.state;
 
@@ -122,6 +123,10 @@ class VariableEditor extends React.PureComponent {
                         {...{ theme, namespace }}
                     />
                 ) : null}
+                { additionalItemActions ?
+                    additionalItemActions({ src, type, namespace: namespace.concat([variable.name]), name: variable.name })
+                    : null
+                }
                 {onEdit !== false && editMode == false
                     ? this.getEditIcon()
                     : null}

@@ -123,6 +123,9 @@ export interface ReactJsonViewProps {
    * Default: false
    */
   onToggleCollapse?: ((collapse: onToggleCollapseProps) => void) | false;
+
+  additionalItemActions?: ((item: OnCopyProps) => React.ReactElement);
+
   /**
    * Custom message for validation failures to onEdit, onAdd, or onDelete callbacks.
    *
