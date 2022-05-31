@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import AutosizeTextarea from 'react-textarea-autosize';
 
 import { toType } from './../helpers/util';
@@ -55,7 +55,9 @@ class VariableEditor extends React.PureComponent {
             onDelete,
             onSelect,
             rjvId,
-            additionalItemActions
+            additionalItemActions,
+            keyRenderer,
+            scalarKeyValueRenderer
         } = this.props;
         const { editMode } = this.state;
 
@@ -77,18 +79,29 @@ class VariableEditor extends React.PureComponent {
                     </span>
                 ) : (
                     <span>
+                        { scalarKeyValueRenderer ? null :
+                        <Fragment>
                         <span
                             {...Theme(theme, 'object-name')}
                             class="object-key"
                             key={variable.name + '_' + namespace}
                         >
-                            <span style={{ verticalAlign: 'top' }}>"</span>
-                            <span style={{ display: 'inline-block' }}>
-                                {variable.name}
-                            </span>
-                            <span style={{ verticalAlign: 'top' }}>"</span>
+                            {keyRenderer ? keyRenderer({
+                                ...variable,
+                                namespace: namespace.concat([variable.name])
+                            }) :
+                            <Fragment>
+                                <span style={{ verticalAlign: 'top' }}>"</span>
+                                <span style={{ display: 'inline-block' }}>
+                                    {variable.name}
+                                </span>
+                                <span style={{ verticalAlign: 'top' }}>"</span>
+                            </Fragment>
+                            }
                         </span>
                         <span {...Theme(theme, 'colon')}>:</span>
+                        </Fragment>
+                        }
                     </span>
                 )}
                 <div
@@ -113,7 +126,12 @@ class VariableEditor extends React.PureComponent {
                         cursor: onSelect === false ? 'default' : 'pointer'
                     })}
                 >
-                    {this.getValue(variable, editMode)}
+                    {scalarKeyValueRenderer ?
+                    scalarKeyValueRenderer({
+                        ...variable,
+                        namespace: namespace.concat([variable.name])
+                    })
+                    : this.getValue(variable, editMode)}
                 </div>
                 {enableClipboard ? (
                     <CopyToClipboard

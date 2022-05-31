@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Theme from './../themes/getStyle';
 
 export default function getObjectName(props) {
     const {
-        parent_type, namespace, theme, jsvRoot, name
+        parent_type, namespace, theme, jsvRoot, name, keyRenderer
     } = props;
 
     const display_name = props.name ? props.name : '';
@@ -21,9 +21,15 @@ export default function getObjectName(props) {
         return (
             <span {...Theme(theme, 'object-name')} key={namespace}>
                 <span class="object-key">
-                    <span style={{verticalAlign:'top'}}>"</span>
-                    <span>{display_name}</span>
-                    <span style={{verticalAlign:'top'}}>"</span>
+                    {keyRenderer ? keyRenderer(props) :
+                    <Fragment>
+                        <span style={{ verticalAlign: 'top' }}>"</span>
+                        <span style={{ display: 'inline-block' }}>
+                            {display_name}
+                        </span>
+                        <span style={{ verticalAlign: 'top' }}>"</span>
+                    </Fragment>
+                    }
                 </span>
                 <span {...Theme(theme, 'colon')}>:</span>
             </span>

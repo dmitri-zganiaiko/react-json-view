@@ -125,6 +125,8 @@ export interface ReactJsonViewProps {
   onToggleCollapse?: ((collapse: onToggleCollapseProps) => void) | false;
 
   additionalItemActions?: ((item: OnCopyProps) => React.ReactElement);
+  keyRenderer?: ((item: OnSelectProps) => React.ReactElement);
+  scalarKeyValueRenderer?: ((item: OnSelectProps) => React.ReactElement);
 
   /**
    * Custom message for validation failures to onEdit, onAdd, or onDelete callbacks.
